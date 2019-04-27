@@ -1,0 +1,93 @@
+.login-card {
+  height: 100%;
+  display: inline-flex;
+  flex-direction: column;
+  /* align-items: center; */
+  padding:0;
+  /* justify-content: center; */
+  /* vertical-align: middle;
+    margin: 0 auto; */
+  margin-left: 15%;
+  background-color: #fff;
+}
+
+.login-block {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  background: linear-gradient(42deg, #4a65d1 0, rgb(125, 146, 230) 60%, rgb(209, 160, 172) 100%);
+}
+
+.labels {
+  display: flex;
+  margin-left: 50px;
+  flex-direction: column;
+  padding-left: 400px;
+  margin: 0;
+  width: 60%;
+
+}
+
+.app-name>h2 {
+  color: #fff;
+  margin-right: 30px;
+}
+
+.logo {
+  display: flex;
+  width: 60px;
+  height: 60px;
+  margin-top: 40px;
+  margin-bottom: 30px;
+}
+
+.app-value {
+  color: #fff;
+}
+
+.copyright {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  color: #fff;
+  z-index: 50;
+}
+.copyright span {
+  font-size: 12px;
+}
+.login-input{
+  border-radius: 20px;
+  text-align: center;
+  
+}
+.form-group{
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.btn-custom{
+ background-color: rgb(0, 223, 93);
+ color: #FFFFFF;
+ border-radius: 20px;
+ margin-right: 15px;
+ float: right;
+ height: 40px;
+ padding: 10px;
+text-align: center;
+width: 80px;
+}
+.openbtn{
+  border:none;
+}
+.login-graphic{
+  /* background: url('../../../assets/app-images/UEWBEAUTY.jpg') center center no-repeat; */
+  margin:0;
+  padding: 0;
+  width:100%;
+  height: 300px;
+  margin-bottom: 50px;
+}
+.mat-form-field-infix {
+  width: 300px !important;
+}

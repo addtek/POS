@@ -1,0 +1,9 @@
+
+<div mat-dialog-content>
+  <p>{{data.message}} {{data.itemName}} ? </p>
+  <p>this action is not reversible !</p>
+</div>
+<div mat-dialog-actions>
+<button mat-button (click)="onNoClick()" cdkFocusInitial>cancel</button>
+  <button mat-button (click)="onSubmit()" >yes</button>
+</div>

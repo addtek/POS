@@ -1,0 +1,40 @@
+<app-menu-bar></app-menu-bar>
+
+<mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 56">
+  <mat-sidenav color="primary" #snav opened="true" [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+    <mat-nav-list>
+      <a class="nav-item" mat-list-item routerLink="/app/dashboard"  routerLinkActive="active-route">
+        <mat-icon>dashboard</mat-icon><span class="nav-text">Summary</span>
+      </a>
+      <mat-divider></mat-divider>
+      <a class="nav-item" mat-list-item routerLink="/app/sales-manager"  routerLinkActive="active-route">
+        <mat-icon>money</mat-icon><span class="nav-text"> Daily Sales</span>
+      </a>
+       <mat-divider></mat-divider>
+      <a  class="nav-item" mat-list-item routerLink="/app/sales-record"  routerLinkActive="active-route">
+        <mat-icon>list</mat-icon><span class="nav-text"> Sales Record</span>
+      </a>
+       <mat-divider></mat-divider>
+      <a *ngIf="user.userRole === 'MAN' || user.userRole === 'SA'" class="nav-item" mat-list-item routerLink="/app/stock/management"  routerLinkActive="active-route">
+        <mat-icon>kitchen</mat-icon><span class="nav-text"> Stock Management</span>
+      </a>
+       <mat-divider></mat-divider>
+      <a *ngIf="user.userRole === 'MAN' || user.userRole === 'SA'" class="nav-item" mat-list-item routerLink="/app/users/management"  routerLinkActive="active-route">
+        <mat-icon>people</mat-icon><span class="nav-text"> App Users</span>
+      </a>
+       <mat-divider></mat-divider>
+      <!-- <a class="nav-item" mat-list-item routerLink="/app/settings" routerLinkActive="active-route">
+        <mat-icon>settings</mat-icon><span class="nav-text"> App Settings</span>
+      </a> -->
+      <!-- <a class="nav-item" mat-list-item routerLink="/app/another"  routerLinkActive="active-route">Another Link</a> -->
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content style="min-height: 540px;">
+    <!-- route loading -->
+<mat-progress-bar *ngIf="loading" class="example-margin" [color]="color" [mode]="mode" [value]="value" [bufferValue]="bufferValue">
+</mat-progress-bar>
+    <!-- display page content -->
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

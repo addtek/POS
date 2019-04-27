@@ -1,0 +1,42 @@
+<div class="page-heading">
+  <mat-card-title>Dashboard</mat-card-title>
+</div>
+<div class="dashboard-component">
+  <a class="dashboard-component-item" (click)="openDialog('faculty')">
+    <mat-card>
+      <h2 class="item-value" style="color: #11C4A9">{{users}}</h2>
+      <h5 class="item-label">Users</h5>
+    </mat-card>
+  </a>
+  <a class="dashboard-component-item" (click)="openDialog('department')">
+    <mat-card>
+      <h2 class="item-value" style="color: #9BC50D">{{stock}}</h2>
+      <h5 class="item-label">Stock</h5>
+    </mat-card>
+  </a>
+  <a class="dashboard-component-item" (click)="openDialog('programme')">
+    <mat-card>
+      <h2 class="item-value" style="color: #FF5733;">&#8373;  {{revenue}}</h2>
+      <h5 class="item-label">Revenue</h5>
+    </mat-card>
+  </a>
+  <a class="dashboard-component-item" (click)="openDialog('lecturers')">
+    <mat-card>
+      <h2 class="item-value" style="color: #48B1E2">{{sold}}</h2>
+      <h5 class="item-label">Items Sold</h5>
+    </mat-card>
+  </a>
+  <!-- <a color="assent" class="dashboard-component-item" (click)="openDialog('class')">
+    <mat-card>
+      <h2 class="item-value" style="color: #8C40C1">800</h2>
+      <h5 class="item-label">Classes</h5>
+    </mat-card>
+  </a>
+  <a color="primary" class="dashboard-component-item" (click)="openDialog('venue')">
+    <mat-card>
+      <h2 class="item-value" style="color: #D147A7">51</h2>
+      <h5 class="item-label">Venues</h5>
+    </mat-card>
+  </a> -->
+
+</div>

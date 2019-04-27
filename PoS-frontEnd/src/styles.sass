@@ -1,0 +1,137 @@
+/* You can add global styles to this file, and also import other style files */
+// @import "~bootstrap/dist/css/bootstrap.css"
+// @import "~font-awesome/css/font-awesome.css"
+@import url( 'https://fonts.googleapis.com/css?family=Roboto:400,700|Material+Icons')
+@import "~@angular/material/prebuilt-themes/indigo-pink.css"
+
+html, body
+  margin: 0
+  height: 100%
+  overflow: hidden
+
+.nav-text
+    margin-left: 10px
+
+.page-heading
+    padding-left: 30px
+    margin-top: 10px
+     
+.alert
+  -moz-osx-font-smoothing: grayscale
+  -webkit-font-smoothing: antialiased
+  font-family: "Roboto", "Helvetica Neue", Arial, sans-serif
+  font-weight: 400
+
+.alert 
+  -webkit-transition: all 300ms linear
+  -moz-transition: all 300ms linear
+  -o-transition: all 300ms linear
+  -ms-transition: all 300ms linear
+  transition: all 300ms linear
+
+.alert 
+  border-radius: 3px
+
+
+.alert h4 
+  font-weight: 600
+
+
+.alert .icon 
+  margin-right: 10px
+
+
+.alert .close 
+  color: #000
+  opacity: 0.2
+  filter: alpha(opacity=20)
+
+
+.alert .close:hover 
+  opacity: 0.5
+  filter: alpha(opacity=50)
+
+
+.alert a 
+  color: #fff
+  text-decoration: underline
+
+
+.alert-success 
+  border-color: #008d4c
+
+
+.alert-danger,
+.alert-error 
+  border-color: #d73925
+
+
+.alert-warning 
+  border-color: #e08e0b
+
+
+.alert-info 
+  border-color: #00acd6
+   
+.alert 
+  border: 0
+  border-radius: 0
+  color: #FFFFFF
+  padding: 10px 15px
+  font-size: 14px
+
+  .alert span[data-notify="icon"] 
+    font-size: 30px
+    display: block
+    left: 15px
+    position: absolute
+    top: 50%
+    margin-top: -15px 
+  .alert button.close 
+    position: absolute
+    right: 10px
+    top: 50%
+    margin-top: -13px
+    z-index: 1033
+    background-color: #FFFFFF
+    display: block
+    border-radius: 50%
+    opacity: .4
+    line-height: 11px
+    width: 25px
+    height: 25px
+    outline: 0 !important
+    text-align: center
+    padding: 3px
+    font-weight: 300 
+    .alert button.close:hover 
+      opacity: .55 
+  .alert .close ~ span 
+    display: block
+    max-width: 89% 
+  .alert[data-notify="container"] 
+    padding: 10px 10px 10px 20px
+    border-radius: 4px 
+  .alert.alert-with-icon 
+    padding-left: 65px 
+
+.alert-info 
+  background-color: #63d8f1 
+
+.alert-success 
+  background-color: #a1e82c 
+
+.alert-warning 
+  background-color: #ffbc67 
+
+.alert-danger 
+  background-color: #fc727a 
+.mat-icon
+    font-family: 'Material Icons' !important
+
+.mat-toolbar-single-row
+  height: 56px !important
+  position: fixed
+  z-index: 99
+.mat-card
+  margin-bottom: 30px

@@ -1,0 +1,49 @@
+<section class="login-block">
+
+  <div @fade-shift class="login-card col-md-3">
+    <div class="login-graphic">
+
+    </div>
+    <h2 class="text-center" style="color:rgb(102, 85, 199) ; margin-bottom: 25px;text-align:center"><b>System Login</b></h2>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <mat-form-field>
+          <input matInput placeholder="Username" formControlName="username" type="text" autocomplete="off" required>
+          <mat-error *ngIf="f.username.errors">{{getErrorMessage('username')}}</mat-error>
+        </mat-form-field>
+      
+      </div>
+      <div class="form-group">
+        <mat-form-field>
+          <input matInput formControlName="password" placeholder="Password" [type]="hide ? 'password' : 'text'" required>
+          <mat-icon matSuffix (click)="hide = !hide">{{hide? 'visibility_off': 'visibility'}}</mat-icon>
+          <mat-error *ngIf="f.password.errors">{{getErrorMessage('password')}}</mat-error>
+        </mat-form-field>
+    
+      </div>
+
+      
+      <div class="form-group">
+        <a routerLink="/users/password/request-reset" >forgot password</a> 
+        <button [disabled]="loading" class="btn btn-custom float-right"><b *ngIf ="!loading">Login</b><img *ngIf="loading" class="pl-3" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+        </button>
+      </div>
+
+    </form>
+  </div>
+  <div class="labels">
+    <div @fade-in-slide class="logo">
+      <img src="../assets/app-images/uew_logo_web.png" width="100%" height="auto">
+    </div>
+    <div @slide-in-right class="app-name">
+      <h2>SPOS <b style="color:#010C38">Smart Point Of Sale</b></h2>
+
+    </div>
+    <div @slide-in-left class="app-value">
+      <span>Bookkeeping at the next level</span>
+    </div>
+  </div>
+  <div @fade-in class="pull-right copyright">
+    <span>Copyright &#xa9; AddTek Global,2018. All Rights Reserved</span>
+  </div>
+</section>

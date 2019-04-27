@@ -1,0 +1,29 @@
+<mat-toolbar color="primary">
+<button id="toggleBtn" mat-icon-button (click)="toggleSideNav()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <h1 class="example-app-name" style="margin-left: 60px; margin-right: 60px;">SAGE MOY VENTURES</h1>
+  <span style="flex: 1 1 auto;"></span>
+  <button [matMenuTriggerFor]="notify" mat-icon-button [matBadge]="notify.length ? notify.length : ''"  matBadgeColor="accent" style="margin-right:20px">
+    <mat-icon>notifications</mat-icon>
+  </button>
+  <mat-menu #notify="matMenu" xPosition="before">
+  <button *ngFor="let item of notify" mat-menu-item (click)="openDialog()">
+    <span>{{notify.message}}</span>
+  </button>
+  </mat-menu>
+  <div [matMenuTriggerFor]="menu" style="display: flex;padding: 10px;">
+    <div mat-card-avatar class="acc-avatar" ></div>
+    <span style="font-size: 14px;margin-left:10px; padding-top:4px;cursor:pointer;">{{auth.currentUserValue.un}}</span>
+  </div>
+  <mat-menu #menu="matMenu">
+  <button *ngIf="auth.currentUserValue.userRole === 'MAN' || auth.currentUserValue.usrRole === 'SA'" mat-menu-item (click)="openDialog()">
+    <mat-icon>person</mat-icon>
+    <span>My Profile</span>
+  </button>
+  <button mat-menu-item (click)="logout()">
+    <mat-icon>exit_to_app</mat-icon>
+    <span>logout</span>
+  </button>
+  </mat-menu>
+</mat-toolbar>

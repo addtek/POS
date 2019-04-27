@@ -1,0 +1,140 @@
+<mat-card>
+<div class="inline-container" id="timetable-content">
+  <!-- <div class="page-heading">
+    <h3>Timetable</h3>
+  </div> -->
+
+  
+<div class="table-container">
+  <mat-card-header>Sales Book</mat-card-header>
+  <div class="loading-shade" *ngIf="!isLoadingResults && salesData.length == 0">
+    <div class="dataSource-empty" *ngIf="salesData.length == 0">
+      No sales made at the moment
+    </div>
+  </div>
+  <mat-form-field *ngIf="salesData.length !== 0">
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter sales">
+  </mat-form-field>
+  
+  <table *ngIf="salesData.length !== 0" mat-table [dataSource]="salesDataSource" class="mat-elevation-z8">
+  
+    <!-- Position Column -->
+    <ng-container matColumnDef="SN">
+      <th mat-header-cell *matHeaderCellDef> No. </th>
+      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      <td mat-footer-cell *matFooterCellDef>Total </td>
+    </ng-container>
+  
+    <!-- Name Column -->
+    <ng-container matColumnDef="Item">
+      <th mat-header-cell *matHeaderCellDef> Item Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.itemName}} </td>
+      <td mat-footer-cell *matFooterCellDef> Total </td>
+    </ng-container>
+  
+    <!-- Weight Column -->
+    <ng-container matColumnDef="Quantity">
+      <th mat-header-cell *matHeaderCellDef> Quantity </th>
+      <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+      <td mat-footer-cell *matFooterCellDef> </td>
+      
+    </ng-container>
+  
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="Price">
+      <th mat-header-cell *matHeaderCellDef> Price </th>
+      <td mat-cell *matCellDef="let element"> {{element.price}} </td>
+      <td mat-footer-cell *matFooterCellDef> {{getTotalCost() | currency:'GH¢ '}} 
+      </td>
+    </ng-container>
+    <!-- Symbol Action -->
+    <ng-container matColumnDef="btn">
+      <th mat-header-cell *matHeaderCellDef>  </th>
+      <td mat-cell *matCellDef="let element"> 
+      <button mat-button matSuffix mat-icon-button aria-label="drop" color="warn"
+      matTooltip="drop item from sales (return)" (click)="removeFromSales(element.id)">
+            <mat-icon>clear</mat-icon>
+      </button></td>
+      <td mat-footer-cell *matFooterCellDef> </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+  </table>
+  <mat-paginator #paginator [pageIndex]="currentPage" [pageSize]="pageSize" [length]="totalSize"[pageSizeOptions]="[10]"></mat-paginator>
+</div>
+</div>
+<div class="inline-container" id="tools">
+ 
+  <mat-accordion class="sales" style="margin-top: 10px; width: 100%">
+    <mat-expansion-panel expanded ="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+         Available Items
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="loading-shade" *ngIf="isLoadingResults">
+        <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+      </div>
+    <div class="loading-shade" *ngIf="!isLoadingResults && stockData.length == 0">
+      <div class="dataSource-empty" *ngIf="stockData.length == 0">
+        You stock is empty please go to  Stock Management and add Items
+      </div>
+    </div>
+      <mat-form-field *ngIf="stockData.length !== 0">
+        <input matInput (keyup)="applyStockFilter($event.target.value)" placeholder="Search Item">
+      </mat-form-field>
+
+      <table *ngIf="stockData.length !== 0" mat-table [dataSource]="stockDataSource">
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="Item">
+          <th mat-header-cell *matHeaderCellDef> Item Name </th>
+          <td mat-cell *matCellDef="let element"><span style="font-size: 12px;">{{element.itemName}}</span></td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="Quantity">
+          <th mat-header-cell *matHeaderCellDef> Quantity </th>
+          <td mat-cell *matCellDef="let element; let i = index"> <input [attr.disabled]="true" type="text" class="salesQty" value="1">
+          <button class="edit-btn" mat-button matSuffix mat-icon-button aria-label="decrease" 
+          matTooltip="decrease Quantity"
+          (click)="itemQuantity(element.id, 0, i)">
+            <mat-icon>remove</mat-icon>
+          </button>
+          <button class="edit-btn" mat-button matSuffix mat-icon-button aria-label="increase" 
+          matTooltip="increase Quantity"
+          (click)="itemQuantity(element.id, 1, i)">
+            <mat-icon>add</mat-icon>
+          </button>
+          </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="Price">
+          <th mat-header-cell *matHeaderCellDef> Price </th>
+          <td mat-cell *matCellDef="let element"> {{element.pricePerItem}} </td>
+        </ng-container>
+        
+        <!-- Symbol Action -->
+        <ng-container matColumnDef="btn">
+          <th mat-header-cell *matHeaderCellDef>  </th>
+          <td mat-cell *matCellDef="let element; let i = index">
+          <button [disabled]="element.numberInStock < 1 ? true: false || saleBtnDisabled" color = "primary" mat-raised-button matSuffix [matTooltip]="element.numberInStock > 0 ? 'add item to sales' : 'Item is out of stock'"
+            (click)="addToSales(element.id, i)">
+              add sale
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="availdisplayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: availdisplayedColumns;" ></tr>
+      </table>
+      <mat-paginator #stockpaginator [pageIndex]="stockCurrentPage" [pageSize]="stockPageSize" 
+      [length]="stockTotalSize" [pageSizeOptions]="[10]" (page)="pageEvent = handleStockPage($event)"></mat-paginator>
+      </mat-expansion-panel>
+   
+  </mat-accordion>
+</div>
+</mat-card>

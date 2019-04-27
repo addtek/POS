@@ -1,0 +1,76 @@
+<mat-card>
+
+    <mat-form-field>
+      <input matInput [matDatepicker]="start" placeholder="Date From" name="sDate" [(ngModel)]="sDate">
+      <mat-datepicker-toggle matSuffix [for]="start"></mat-datepicker-toggle>
+      <mat-datepicker #start></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput [matDatepicker]="end" placeholder="Date To" name="eDate" [(ngModel)]="eDate">
+      <mat-datepicker-toggle matSuffix [for]="end"></mat-datepicker-toggle>
+      <mat-datepicker #end></mat-datepicker>
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="showRecord()"> show records</button>
+<div class="loading-shade" *ngIf="!isLoadingResults && salesData.length == 0">
+  <div class="dataSource-empty" *ngIf="salesData.length == 0">
+    No sales record found
+  </div>
+</div>
+<div class="loading-shade" *ngIf="isLoadingResults">
+  <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+</div>
+<table *ngIf="salesData.length !== 0" mat-table [dataSource]="salesDataSource" class="mat-elevation-z8 sTable">
+
+  <!-- Position Column -->
+  <ng-container matColumnDef="SN">
+    <th mat-header-cell *matHeaderCellDef> No. </th>
+    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    <td mat-footer-cell *matFooterCellDef>Total </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="Item">
+    <th mat-header-cell *matHeaderCellDef> Item Name </th>
+    <td mat-cell *matCellDef="let element"> {{element.itemName}} </td>
+    <td mat-footer-cell *matFooterCellDef> Total </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="Quantity">
+    <th mat-header-cell *matHeaderCellDef> Quantity </th>
+    <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+    <td mat-footer-cell *matFooterCellDef> </td>
+
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="Price">
+    <th mat-header-cell *matHeaderCellDef> Price </th>
+    <td mat-cell *matCellDef="let element"> {{element.price}} </td>
+    <td mat-footer-cell *matFooterCellDef> {{getTotalCost() | currency:'GH¢ '}}
+    </td>
+  </ng-container>
+  <!-- Symbol Date Created -->
+  <ng-container matColumnDef="DateSold">
+    <th mat-header-cell *matHeaderCellDef> Date Sold </th>
+    <td mat-cell *matCellDef="let element"> {{element.created_at}} </td>
+    <td mat-footer-cell *matFooterCellDef>
+    </td>
+  </ng-container>
+  <!-- Symbol Action -->
+  <ng-container matColumnDef="btn">
+    <th mat-header-cell *matHeaderCellDef> Action </th>
+    <td mat-cell *matCellDef="let element">
+     <button mat-button matSuffix mat-icon-button aria-label="drop" color="warn"
+      matTooltip="drop item from sales (return)" (click)="removeFromSales(element.id)">
+            <mat-icon>clear</mat-icon>
+      </button>
+    </td>
+    <td mat-footer-cell *matFooterCellDef> </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+</table>
+</mat-card>

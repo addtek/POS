@@ -1,0 +1,165 @@
+<mat-card>
+<form [formGroup]="addStockFormGroup">
+  <mat-form-field>
+  <mat-select placeholder="Item Name" formControlName="cat" required>
+    <mat-option *ngFor="let category of categories" [value]="category.id">
+      {{category.categoryID}}
+    </mat-option>
+  </mat-select>
+  </mat-form-field>
+  <mat-form-field class="example-form-field">
+    <input matInput type="text" placeholder="Particulars (eg. 16gb)" formControlName="itemName" autocomplete="off">
+  </mat-form-field>
+  <mat-form-field class="example-form-field">
+    <input matInput type="text" placeholder="Quantity" formControlName="qty" autocomplete="off">
+  </mat-form-field>
+  <mat-form-field class="example-form-field">
+    <input matInput type="text" placeholder="Price/unit" formControlName="price" autocomplete="off">
+  </mat-form-field>
+  <button mat-raised-button (click)="addToStock()"><mat-icon>add</mat-icon> add</button>
+
+  </form>
+<div class="inline-container" [attr.id]="selection.hasValue() ? 'stocktable-content' : 'stocktable-content-full'">
+<mat-form-field *ngIf="stock.length !== 0">
+  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+</mat-form-field>
+<div class="loading-shade" *ngIf="!isLoadingResults && stock.length == 0">
+  <div class="dataSource-empty" *ngIf="stock.length == 0">
+    No stock items found please use the fields above to add items 
+  </div>
+</div>
+<div class="loading-shade" *ngIf="isLoadingResults">
+  <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+</div>
+<table *ngIf="stock.length !== 0" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <!-- Checkbox Column -->
+  <ng-container matColumnDef="Select">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+        [indeterminate]="selection.hasValue() && !isAllSelected()">
+      </mat-checkbox>
+    </th>
+    <td mat-cell *matCellDef="let row">
+      <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+      </mat-checkbox>
+    </td>
+  </ng-container>
+  <!-- Position Column -->
+  <ng-container matColumnDef="SN">
+    <th mat-header-cell *matHeaderCellDef> No. </th>
+    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+
+  </ng-container>
+
+  <!-- Name Column -->
+  <!-- <ng-container matColumnDef="Item">
+    <th mat-header-cell *matHeaderCellDef> category </th>
+    <td mat-cell *matCellDef="let element"> {{element.item}} </td>
+    <td mat-footer-cell *matFooterCellDef> </td>
+  </ng-container> -->
+  <!-- Name Column -->
+  <ng-container matColumnDef="Item">
+    <th mat-header-cell *matHeaderCellDef> Item Name </th>
+    <td mat-cell *matCellDef="let element"> {{element.itemName}} </td>
+
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="Quantity">
+    <th mat-header-cell *matHeaderCellDef> Total stock </th>
+    <td mat-cell *matCellDef="let element; let  i = index"> <input #stockQty type="text" class="stockQty"
+      [attr.disabled] = "true" value="{{element.numberInStock}}">
+    <button class="edit-btn" mat-button matSuffix mat-icon-button aria-label="decrease"
+    (click)="stockQuantity(element.id, 0, i)">
+      <mat-icon>remove</mat-icon>
+    </button>
+    <button class="edit-btn" mat-button matSuffix mat-icon-button aria-label="increase" (click)="stockQuantity(element.id, 1, i)">
+      <mat-icon>add</mat-icon>
+    </button>
+    </td>
+
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="Price">
+    <th mat-header-cell *matHeaderCellDef> Price </th>
+    <td mat-cell *matCellDef="let element; let i = index"> <input #stockQty type="text" class="stockPrice"
+       value="{{element.pricePerItem}}"  (keyup)="updatePrice(element.id,i)">
+
+  </ng-container>
+
+  <!-- Symbol Action -->
+  <ng-container matColumnDef="Action">
+    <th mat-header-cell *matHeaderCellDef>
+       <button [disabled]="!editingStart" matSuffix
+        mat-flat-button matTooltip="save changes" color="primary" (click)="updateStock()">
+        <mat-icon>save</mat-icon>
+      </button>
+    </th>
+    <td mat-cell *matCellDef="let element; let i = index">
+      <button mat-button matSuffix mat-icon-button aria-label="drop" color="warn"
+      matTooltip="remove item from stock" (click)="removeFromStock(element.id)">
+            <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<mat-paginator [pageSizeOptions]="[10, 20]"></mat-paginator>
+</div>
+<div class="inline-container" id="analytics-content">
+<mat-accordion *ngIf="selection.hasValue()" style="margin-top: 10px; width: 100%">
+  <mat-expansion-panel expanded="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Stock Item Sale Analysis
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <button mat-raised-button (click)="showChart()" color="primary">
+      <mat-icon>bar_chart</mat-icon>
+      show chart
+    </button>
+    <div *ngFor="let item of selection.selected">
+      <h5>{{item.itemName}}</h5>
+      <div>
+        <table class="table custom-table">
+          <thead>
+            <tr class="custom-table-header-row">
+              <th class="table-header-cell">Time</th>
+              <th class="table-header-cell"><span class="table-cell-span">Total</span></th>
+              <th class="table-header-cell"><span class="table-cell-span">Amount</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="table-row">
+              <td class="table-cell">Today</td>
+              <td class="table-cell"><span class="table-cell-span">{{item.todaySales.total}}</span></td>
+              <td class="table-cell"><span class="table-cell-span">{{item.todaySales.amount}}</span></td>
+            </tr>
+            <tr class="table-row">
+              <td class="table-cell">This Week</td>
+              <td class="table-cell"><span class="table-cell-span">{{item.weekSales.total}}</span></td>
+              <td class="table-cell"><span class="table-cell-span">{{item.weekSales.amount}}</span></td>
+            </tr>
+            <tr class="table-row">
+              <td class="table-cell">This Month</td>
+              <td class="table-cell"><span class="table-cell-span">{{item.monthSales.total}}</span></td>
+              <td class="table-cell"><span class="table-cell-span">{{item.monthSales.amount}}</span></td>
+            </tr>
+            <tr class="table-row">
+              <td class="table-cell">All Time</td>
+              <td class="table-cell"><span class="table-cell-span">{{item.allSales.total}}</span></td>
+              <td class="table-cell"><span class="table-cell-span">{{item.allSales.amount}}</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </mat-expansion-panel>
+
+</mat-accordion>
+</div>
+</mat-card>
